@@ -3,6 +3,7 @@ package com.disi.geo.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.disi.geo.compute.ExhaustiveAlgorithm;
 import com.disi.geo.compute.GreedyAlgorithm;
 import com.disi.geo.compute.RandomSearchAlgorithm;
 import com.disi.geo.model.ItemModel;
@@ -12,7 +13,7 @@ import com.disi.geo.utils.FileUtil;
 public class Main {
 	
 	final static int NR_OF_ITERATIONS = 10000;
-	final static String INPUT_FILE_PATH = "rucsac-200.txt";
+	final static String INPUT_FILE_PATH = "rucsac-20.txt";
 	final static String LINE_SPLIT_REGEX = "\\s+";
 	
 	final static String RANDOM_SEARCH_SOLUTION_OUTPUT_FILE_NAME = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/random-search/rucsac-solutie-";
@@ -21,6 +22,7 @@ public class Main {
 	
 	final static String GREEDY_SOLUTION_OUTPUT_FILE_NAME = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/greedy/rucsac-solutie-";
 	
+	final static String EXHAUSTIVE_SOLUTION_OUTPUT_FILE_NAME = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/exhaustive/rucsac-solutie-";
 	
 	
 	public static void main(String[] args) {	
@@ -67,9 +69,15 @@ public class Main {
 		
 		
 		/************************************Greedy*****************************************/
-		// run Greedy
 		//runGreedy(items, knapsackCapacity, nrOfItems);
 		/***********************************************************************************/
+		
+		
+		/**************************************Exhaustive***********************************/
+		runExhaustive(items, knapsackCapacity, nrOfItems);
+		/***********************************************************************************/
+		
+		
 	}
 	
 	
@@ -130,9 +138,19 @@ public class Main {
 	}
 	
 	
-	
-	
-	
+	/*
+	 * @description - run the Exhaustive algorithm - brute force
+	 * @param items - the list of items to put in the knapsack
+	 * @param knapsackCapacity - the maximum allowed capacity for the knapsack
+	 * @param nrOfItems - the total number of items
+	 */
+	private static void runExhaustive(List<ItemModel> items, int knapsackCapacity, int nrOfItems){
+		String solutionOutputFile = EXHAUSTIVE_SOLUTION_OUTPUT_FILE_NAME + nrOfItems + ".txt";
+		// if the files already exist, delete them
+		FileUtil.deleteFileIfExists(solutionOutputFile);
+		//compute
+		ExhaustiveAlgorithm.compute(items, knapsackCapacity, nrOfItems, solutionOutputFile);
+	}
 	
 	
 	
