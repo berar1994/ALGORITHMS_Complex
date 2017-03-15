@@ -54,7 +54,7 @@ public class RandomSearchAlgorithm {
 	 * @param items - the list of items for generating the random solution
 	 * @return - an array with 1s and 0s having the given length 
 	 */
-	private static int[] generateRandomSolution(int knapsackCapacity, List<ItemModel> items){
+	public static int[] generateRandomSolution(int knapsackCapacity, List<ItemModel> items){
 		int arrayLength = items.size();
 		int[] generatedRandomArray =  new int[arrayLength];
 		boolean foundSolution = false;
@@ -82,7 +82,7 @@ public class RandomSearchAlgorithm {
 	 * @return true if the solution is valid and doesn't overcome the capacity
 	 * 		   false otherwise
 	 */
-	private static boolean isSolutionValid(int[] solution, int knapsackCapacity, List<ItemModel> items){
+	public static boolean isSolutionValid(int[] solution, int knapsackCapacity, List<ItemModel> items){
 		int solutionLength = solution.length;
 		int solutionAccumulatedCapacity = 0;
 		
@@ -100,7 +100,7 @@ public class RandomSearchAlgorithm {
 	 * @param items - the list of items
 	 * @return the total value of valid solution
 	 */
-	private static int evaluateValueOfRandomSolution(int[] solution, List<ItemModel> items){
+	public static int evaluateValueOfRandomSolution(int[] solution, List<ItemModel> items){
 		int totalValue = 0;
 		int solutionLength = solution.length;
 		

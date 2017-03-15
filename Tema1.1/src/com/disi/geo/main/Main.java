@@ -6,24 +6,28 @@ import java.util.List;
 import com.disi.geo.compute.ExhaustiveAlgorithm;
 import com.disi.geo.compute.GreedyAlgorithm;
 import com.disi.geo.compute.RandomSearchAlgorithm;
+import com.disi.geo.compute.SAHCAlgorithm;
 import com.disi.geo.model.ItemModel;
 import com.disi.geo.utils.FileUtil;
 
 
 public class Main {
 	
-	final static int NR_OF_ITERATIONS = 10000;
+	final static int 	NR_OF_ITERATIONS = 10;
 	final static String INPUT_FILE_PATH = "rucsac-20.txt";
 	final static String LINE_SPLIT_REGEX = "\\s+";
 	
 	final static String RANDOM_SEARCH_SOLUTION_OUTPUT_FILE_NAME = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/random-search/rucsac-solutie-";
-	final static int RANDOM_SEARCH_OPTIMUM_ITERATIONS = 10000;
-	final static int RANDOM_SEARCH_RUN_FOR = 10; 
+	final static int 	RANDOM_SEARCH_OPTIMUM_ITERATIONS = 10000;
+	final static int 	RANDOM_SEARCH_RUN_FOR = 10; 
 	
 	final static String GREEDY_SOLUTION_OUTPUT_FILE_NAME = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/greedy/rucsac-solutie-";
 	
 	final static String EXHAUSTIVE_SOLUTION_OUTPUT_FILE_NAME = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/exhaustive/rucsac-solutie-";
 	
+	final static String SAHC_SOLUTION_OUTPUT_FILE_NAME = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/sahc/rucsac-solutie-";
+	final static int 	SAHC_OPTIMUM_ITERATIONS = 10000;
+	final static int 	SAHC_RUN_FOR = 10;
 	
 	public static void main(String[] args) {	
 		List<ItemModel> items = new ArrayList<>();
@@ -74,8 +78,19 @@ public class Main {
 		
 		
 		/**************************************Exhaustive***********************************/
-		runExhaustive(items, knapsackCapacity, nrOfItems);
+		//runExhaustive(items, knapsackCapacity, nrOfItems);
 		/***********************************************************************************/
+		
+		/*************************************SAHC******************************************/
+		// run SAHC only once
+		//runSteepestAscentHillClimbing(items, knapsackCapacity, nrOfItems);
+		
+		// run SAHC multiple times with optimum iterations
+//		for(int i = 0; i < SAHC_RUN_FOR; i++){
+//			runSteepestAscentHillClimbingWithOptimumIterations(i, items, knapsackCapacity, nrOfItems);
+//		}
+		/***********************************************************************************/
+		
 		
 		
 	}
@@ -146,18 +161,41 @@ public class Main {
 	 */
 	private static void runExhaustive(List<ItemModel> items, int knapsackCapacity, int nrOfItems){
 		String solutionOutputFile = EXHAUSTIVE_SOLUTION_OUTPUT_FILE_NAME + nrOfItems + ".txt";
-		// if the files already exist, delete them
+		// if the file already exists, delete it
 		FileUtil.deleteFileIfExists(solutionOutputFile);
 		//compute
 		ExhaustiveAlgorithm.compute(items, knapsackCapacity, nrOfItems, solutionOutputFile);
 	}
 	
 	
+	/*
+	 * @description - run the SAHC algorithm
+	 * @param items - the list of items to put in the knapsack
+	 * @param knapsackCapacity - the maximum allowed capacity for the knapsack
+	 * @param nrOfItems - the total number of items
+	 */
+	private static void runSteepestAscentHillClimbing(List<ItemModel> items, int knapsackCapacity, int nrOfItems){
+		String solutionOutputFile = SAHC_SOLUTION_OUTPUT_FILE_NAME + nrOfItems + "-iter-" + NR_OF_ITERATIONS + ".txt";
+		// if the file already exists, delete it
+		FileUtil.deleteFileIfExists(solutionOutputFile);
+		// compute
+		SAHCAlgorithm.compute(NR_OF_ITERATIONS, items, knapsackCapacity, nrOfItems, solutionOutputFile);
+	}
 	
 	
-	
-	
-	
+	/*
+	 * @description - run the SAHC algorithm with an optimum number of iterations
+	 * @param items - the list of items to put in the knapsack
+	 * @param knapsackCapacity - the maximum allowed capacity for the knapsack
+	 * @param nrOfItems - the total number of items
+	 */
+	private static void runSteepestAscentHillClimbingWithOptimumIterations(int solutionIndex, List<ItemModel> items, int knapsackCapacity, int nrOfItems){
+		String solutionOutputFile = SAHC_SOLUTION_OUTPUT_FILE_NAME + nrOfItems + "-iter-" + SAHC_OPTIMUM_ITERATIONS + "-" + solutionIndex + ".txt";
+		// if the file already exists, delete it
+		FileUtil.deleteFileIfExists(solutionOutputFile);
+		// compute
+		SAHCAlgorithm.compute(SAHC_OPTIMUM_ITERATIONS, items, knapsackCapacity, nrOfItems, solutionOutputFile);
+	}
 	
 	
 	
