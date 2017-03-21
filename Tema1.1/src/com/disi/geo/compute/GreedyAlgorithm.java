@@ -87,6 +87,7 @@ public class GreedyAlgorithm {
 		// write solution to file
 		FileUtil.writeToFile(outputFile, "***Solution***");
 		FileUtil.writeToFile(outputFile, solution, totalValue);
+		FileUtil.writeToFile(outputFile, "Weight -- " + cumulatedWeight);
 		FileUtil.writeToFile(outputFile, "Total time -- " + duration);
 		System.out.println("GREEDY FINISHED !");	
 	}

@@ -13,7 +13,7 @@ import com.disi.geo.utils.FileUtil;
 
 public class Main {
 	
-	final static int 	NR_OF_ITERATIONS = 10;
+	final static int 	NR_OF_ITERATIONS = 10000;
 	final static String INPUT_FILE_PATH = "rucsac-20.txt";
 	final static String LINE_SPLIT_REGEX = "\\s+";
 	
