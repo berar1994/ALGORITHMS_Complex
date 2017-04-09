@@ -1,4 +1,4 @@
-package com.disi.compute;
+package com.disi.geo.compute;
 
 import java.util.ArrayList;
 import java.util.List;

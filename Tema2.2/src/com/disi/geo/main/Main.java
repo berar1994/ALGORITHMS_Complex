@@ -2,8 +2,8 @@ package com.disi.geo.main;
 
 import java.util.List;
 
-import com.disi.compute.ExhaustiveAlgorithm;
-import com.disi.compute.LocalSearchAlgorithm;
+import com.disi.geo.compute.ExhaustiveAlgorithm;
+import com.disi.geo.compute.LocalSearchAlgorithm;
 import com.disi.geo.model.City;
 import com.disi.geo.model.TSPInstance;
 import com.disi.geo.utils.FileUtil;
