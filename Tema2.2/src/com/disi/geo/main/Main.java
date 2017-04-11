@@ -3,6 +3,7 @@ package com.disi.geo.main;
 import java.util.List;
 
 import com.disi.geo.compute.ExhaustiveAlgorithm;
+import com.disi.geo.compute.GreedyAlogorithm;
 import com.disi.geo.compute.LocalSearchAlgorithm;
 import com.disi.geo.model.City;
 import com.disi.geo.model.TSPInstance;
@@ -11,11 +12,11 @@ import com.disi.geo.utils.FileUtil;
 public class Main {
 	
 	// iterations
-	final static Integer ITERATIONS = 100000;
+	final static Integer ITERATIONS = 10000;
 	final static Integer LOCAL_SEARCH_OPTIMUM_ITERATIONS = 1000;
 	
 	// 2-OPT distance metric
-	final static Integer TWO_OPT_DISTANCE = 20;
+	final static Integer TWO_OPT_DISTANCE = 50;
 	
 	// input files
 	final static String INPUT_FILE_EIL51 = "eil51.tsp";
@@ -28,6 +29,8 @@ public class Main {
 	final static String OUTPUT_FILE_EXHAUSTIVE = "exhaustive_<nrOfCities>_<iterations>_<iteration>.txt";
 	final static String OUTPUT_FOLDER_LOCAL_SEARCH = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/localsearch_tsp/";
 	final static String OUTPUT_FILE_LOCAL_SEARCH = "localsearch_cities<nrOfCities>_iterations<iterations>_iter<iteration>_2optdistance<twoOptDistance>.txt";
+	final static String OUTPUT_FOLDER_GREEDY = "C:/Users/GEO/Desktop/FACULTATE/An 4- Sem 2/DISI/solutions/greedy_tsp/";
+	final static String OUTPUT_FILE_GREEDY = "greedy_cities<nrOfCities>.txt";
 	
 	final static String LINE_SPLIT_SPACE_REGEX = " ";
 	final static String LINE_SPLIT_POINTS_REGEX = ":";
@@ -38,7 +41,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		// read from file
-		List<String> fileContent = FileUtil.readDataFromFile(INPUT_FILE_EIL76);
+		List<String> fileContent = FileUtil.readDataFromFile(INPUT_FILE_EIL51);
 		
 		TSPInstance tspInstance = new TSPInstance();
 		// get number of input cities
@@ -64,7 +67,9 @@ public class Main {
 		//runLocalSearchWithOptimumIterations(tspInstance, TWO_OPT_DISTANCE, LOCAL_SEARCH_OPTIMUM_ITERATIONS);
 		/******************************************************************************************************************/
 		
-		
+		/******************************************************************************************************************/
+		runGreedy(tspInstance);
+		/******************************************************************************************************************/
 		
 	}
 	
@@ -97,6 +102,13 @@ public class Main {
 			localSearchOutputFile = localSearchOutputFile.replaceFirst("<twoOptDistance>", twoOptSwapDistanceMetric.toString());
 			LocalSearchAlgorithm.compute(tspInstance, iterations, twoOptSwapDistanceMetric, localSearchOutputFile);	
 		}
+	}
+	
+	
+	private static void runGreedy(TSPInstance tspInstance){
+		String greedyOutputFile = OUTPUT_FOLDER_GREEDY + OUTPUT_FILE_GREEDY;
+		greedyOutputFile = greedyOutputFile.replaceFirst("<nrOfCities>", tspInstance.getNumberOfCities().toString());
+		GreedyAlogorithm.compute(tspInstance, greedyOutputFile);
 	}
 	
 

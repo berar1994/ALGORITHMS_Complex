@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.disi.geo.model.City;
 import com.disi.geo.model.TSPInstance;
-import com.disi.geo.utils.DoubleUtil;
+import com.disi.geo.utils.StringUtil;
 import com.disi.geo.utils.FileUtil;
 import com.disi.geo.utils.PermutationUtil;
 import com.disi.geo.utils.TSPUtil;

@@ -5,6 +5,7 @@ public class City {
 	private Integer index;
 	private Integer xCoordinate;
 	private Integer yCoordinate;
+	private boolean visited = false;
 	
 	public City(Integer index, Integer xCoordinate, Integer yCoordinate){
 		this.index = index;
@@ -36,6 +37,14 @@ public class City {
 
 	public void setyCoordinate(Integer yCoordinate) {
 		this.yCoordinate = yCoordinate;
+	}
+	
+	public boolean isVisited(){
+		return this.visited;
+	}
+	
+	public void setVisited(boolean value){
+		this.visited = value;
 	}
 	
 	public String toString(){

@@ -29,7 +29,7 @@ public class TSPUtil {
 		FileUtil.deleteFileIfExists(outputFile);
 		FileUtil.writeToFile(outputFile, "***Solution***");
 		FileUtil.writeToFile(outputFile, solution);
-		FileUtil.writeToFile(outputFile, DoubleUtil.getStringWithTwoDigits(cost));
+		FileUtil.writeToFile(outputFile, StringUtil.getStringWithTwoDigits(cost));
 		FileUtil.writeToFile(outputFile, "Total time -- " + time);
 	}
 
