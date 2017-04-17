@@ -6,14 +6,14 @@ import com.disi.geo.model.City;
 
 public class TSPUtil {
 
-	public static Double computeDistance(City city1, City city2) {
+	public static int computeDistance(City city1, City city2) {
 		Double resultX = Math.pow(city2.getxCoordinate() - city1.getxCoordinate(), 2);
 		Double resultY = Math.pow(city2.getyCoordinate() - city1.getyCoordinate(), 2);
-		return Math.sqrt(resultX + resultY);
+		return (int) Math.round(Math.sqrt(resultX + resultY));
 	}
 	
-	public static Double computeTotalCost(List<City> cities){
-		Double totalCost = 0.0;
+	public static int computeTotalCost(List<City> cities){
+		int totalCost = 0;
 		for(int i = 0; i < cities.size() - 1; i++){
 			totalCost += computeDistance(cities.get(i), cities.get(i+1));
 		}
@@ -21,7 +21,7 @@ public class TSPUtil {
 		return totalCost + computeDistance(cities.get(cities.size() - 1), cities.get(0));
 	}
 	
-	public static void writeSolutionToFile(List<City> route, Double cost, Long time, String outputFile){
+	public static void writeSolutionToFile(List<City> route, int cost, Long time, String outputFile){
 		String solution = "";
 		for(City city : route)
 			solution += city.getIndex() + " ";
@@ -29,7 +29,7 @@ public class TSPUtil {
 		FileUtil.deleteFileIfExists(outputFile);
 		FileUtil.writeToFile(outputFile, "***Solution***");
 		FileUtil.writeToFile(outputFile, solution);
-		FileUtil.writeToFile(outputFile, StringUtil.getStringWithTwoDigits(cost));
+		FileUtil.writeToFile(outputFile, String.valueOf(cost));
 		FileUtil.writeToFile(outputFile, "Total time -- " + time);
 	}
 

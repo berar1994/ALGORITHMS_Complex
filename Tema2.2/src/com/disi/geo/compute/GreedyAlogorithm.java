@@ -31,7 +31,7 @@ public class GreedyAlogorithm {
 			index++;
 		}
 
-		Double cost = TSPUtil.computeTotalCost(route);
+		int cost = TSPUtil.computeTotalCost(route);
 		route.add(route.get(0));
 
 		// END TIME
@@ -44,11 +44,68 @@ public class GreedyAlogorithm {
 		System.out.println("GREEDY FINISHED");
 	}
 
+	public static void optimizedCompute(TSPInstance tspInstance, String outputFile) {
+		List<City> cities = new ArrayList<>(tspInstance.getCities());
+		int numberOfCities = cities.size();
+		int tempCost, bestCost = 0;
+		List<City> route = new ArrayList<>(numberOfCities);
+		List<City> bestRoute = null;
+		int nextNeighbourIndex = 0;
+
+		long startTime = System.nanoTime();
+
+		for (int i = 0; i < numberOfCities; i++) {
+			// get first city, add to route and set visited
+			City startingCity = cities.get(i);
+			route.add(startingCity);
+			cities.get(i).setVisited(true);
+
+			for (int j = 0; j < numberOfCities; j++) {
+				if (j == i)
+					continue;
+				nextNeighbourIndex = getNearestNeighbour(cities, startingCity);
+				City nextNeighbour = cities.get(nextNeighbourIndex);
+				route.add(nextNeighbour);
+				cities.get(nextNeighbourIndex).setVisited(true);
+				startingCity = nextNeighbour;
+
+			}
+
+			if (i == 0) {
+				bestCost = TSPUtil.computeTotalCost(route);
+				bestRoute = new ArrayList<>(route);
+			} else {
+				tempCost = TSPUtil.computeTotalCost(route);
+				if (tempCost < bestCost) {
+					bestCost = tempCost;
+					bestRoute = new ArrayList<>(route);
+				}
+			}
+
+			route = new ArrayList<>(numberOfCities);
+			for (int k = 0; k < numberOfCities; k++) {
+				cities.get(k).setVisited(false);
+			}
+		}
+
+		// END TIME
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime) / 1000000; // milliseconds
+		
+		bestRoute.add(bestRoute.get(0));
+		
+		// write solution to file
+		TSPUtil.writeSolutionToFile(bestRoute, bestCost, duration, outputFile);
+
+		System.out.println("GREEDY FINISHED");
+
+	}
+
 	private static int getNearestNeighbour(List<City> neighbours, City city) {
 		int nextNeighbourIndex = 0;
 
 		int numberOfNeighbours = neighbours.size(), index = -1;
-		Double calculatedDistance = 0.0, tempDistance = 0.0;
+		int calculatedDistance = 0, tempDistance = 0;
 		boolean foundFirst = false;
 
 		City tempNeighbour = null;

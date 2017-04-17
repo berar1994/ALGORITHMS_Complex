@@ -21,7 +21,7 @@ public class ExhaustiveAlgorithm {
 		List<List<City>> permutations = PermutationUtil.generateAllPossiblePermutations(citiesTemp);
 
 		List<City> bestRoute = null;
-		Double bestRouteTotalCost = 0.0;
+		int bestRouteTotalCost = 0;
 		// initialy the best route is the first permutation
 		int bestRouteIndex = 0;
 
@@ -31,7 +31,7 @@ public class ExhaustiveAlgorithm {
 		bestRouteTotalCost = TSPUtil.computeTotalCost(initializingPermutation);
 
 		int permutationIndex = 0;
-		Double calculatedCost = 0.0;
+		int calculatedCost = 0;
 
 		// find the best route and get it's cost
 		for (List<City> permutation : permutations) {

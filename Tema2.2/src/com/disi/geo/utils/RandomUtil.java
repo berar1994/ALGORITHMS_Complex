@@ -10,4 +10,8 @@ public class RandomUtil {
 		return randomGenerator.nextInt(highBound - minBound) + minBound;
 	}
 
+	public static double generateRandomNumberBetweenOneAndZero() {
+		return randomGenerator.nextDouble();
+	}
+
 }

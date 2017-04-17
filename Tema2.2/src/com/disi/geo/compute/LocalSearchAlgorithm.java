@@ -11,10 +11,10 @@ import com.disi.geo.utils.TSPUtil;
 
 public class LocalSearchAlgorithm {
 
-	public static void compute(TSPInstance tspInstance, int iterations, int distance, String outputFile) {
+	public static void compute(TSPInstance tspInstance, int iterations, String outputFile) {
 		List<City> currentSolution = new ArrayList<>(tspInstance.getCities());
-		Double currentRouteTotalCost = 0.0;
-		Double newRouteTotalCost = 0.0;
+		int currentRouteTotalCost = 0;
+		int newRouteTotalCost = 0;
 
 		long startTime = System.nanoTime();
 
@@ -31,10 +31,12 @@ public class LocalSearchAlgorithm {
 		for (int iteration = 0; iteration < iterations; iteration++) {
 			while (!twoOptReady) {
 				i = RandomUtil.generateRandomNumberBetween(1, tspInstance.getNumberOfCities());
-				if ((i + distance) < tspInstance.getNumberOfCities()) {
-					j = i + distance;
+				j = RandomUtil.generateRandomNumberBetween(1, tspInstance.getNumberOfCities());
+				
+				if( (j - i) >= 3 ){
 					twoOptReady = true;
 				}
+				
 			}
 
 			List<City> newSolution = new ArrayList<>(currentSolution);
