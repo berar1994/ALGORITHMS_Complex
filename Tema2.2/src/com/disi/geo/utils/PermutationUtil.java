@@ -21,7 +21,7 @@ public class PermutationUtil {
 
 		List<List<City>> recursiveReturn = generateAllPossiblePermutations(cities);
 		for (List<City> li : recursiveReturn) {
-
+			
 			for (int index = 0; index <= li.size(); index++) {
 				List<City> temp = new ArrayList<City>(li);
 				temp.add(index, firstElement);
@@ -32,6 +32,7 @@ public class PermutationUtil {
 		return permutations;
 	}
 	
+
 
 
 	

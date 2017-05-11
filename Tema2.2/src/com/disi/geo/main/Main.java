@@ -9,12 +9,11 @@ import com.disi.geo.compute.SimulatedAnnealingAlgorithm;
 import com.disi.geo.model.City;
 import com.disi.geo.model.TSPInstance;
 import com.disi.geo.utils.FileUtil;
-import com.disi.geo.utils.RandomUtil;
 
 public class Main {
 	
 	// iterations
-	final static Integer ITERATIONS = 10000;
+	final static Integer ITERATIONS = 1000000;
 	final static Integer LOCAL_SEARCH_OPTIMUM_ITERATIONS = 100000;
 	final static Integer SIMULATED_ANNEALING_OPTIMUM_ITERATIONS = 10000;
 	
@@ -23,6 +22,7 @@ public class Main {
 	final static String INPUT_FILE_EIL51 = "eil51.tsp";
 	final static String INPUT_FILE_EIL76 = "eil76.tsp";
 	final static String INPUT_FILE_EIL101 = "eil101.tsp";
+	final static String INPUT_FILE_GIL262 = "gil262.tsp";
 	final static String INPUT_FILE_EXHAUSTIVE = "exhaustive.txt";
 	
 	// output files
@@ -45,7 +45,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		// read from file
-		List<String> fileContent = FileUtil.readDataFromFile(INPUT_FILE_EIL101);
+		List<String> fileContent = FileUtil.readDataFromFile(INPUT_FILE_EIL51);
 		
 		TSPInstance tspInstance = new TSPInstance();
 		// get number of input cities
@@ -78,7 +78,7 @@ public class Main {
 		
 		/******************************************************************************************************************/
 		//runSimulatedAnnealing(tspInstance, ITERATIONS);
-		//runSimulatedAnnealingWithOptimumIterations(tspInstance, SIMULATED_ANNEALING_OPTIMUM_ITERATIONS);
+		runSimulatedAnnealingWithOptimumIterations(tspInstance, SIMULATED_ANNEALING_OPTIMUM_ITERATIONS);
 		/******************************************************************************************************************/
 		
 	}

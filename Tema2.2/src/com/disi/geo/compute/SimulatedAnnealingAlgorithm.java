@@ -58,6 +58,9 @@ public class SimulatedAnnealingAlgorithm {
 		TSPUtil.writeSolutionToFile(currentSolution, cost, duration, outputFile);
 		
 		System.out.println("SIMULATED ANNEALING FINISHED");
+		TMAX = 10000;
+		TMIN = 0.00001;
+		APLPHA = 0.7755;
 	}
 	
 	
