@@ -263,7 +263,7 @@ public class GeneticAlgorithmUtil {
 	}
 	
 	
-	public static List<List<City>> computeParentsPMXCrossoverForTSP(List<List<City>> parents){
+	public static List<List<City>> computeParentsOXCrossoverForTSP(List<List<City>> parents){
 		List<List<City>> children = new ArrayList<>();
 		int cutPoint1 = 0, cutPoint2 = 0;
 		boolean cutPointsGenerated = false;
@@ -271,10 +271,9 @@ public class GeneticAlgorithmUtil {
 		List<City> firstChild = null, firstParent = null;
 		List<City> secondChild = null, secondParent = null;
 		int i = 0;
-		int size = parents.size();
-		Map<City, City> mappings = null;
+		int nrOfParents = parents.size();
 		
-		while(i < (size - 1)){
+		while(i < (nrOfParents - 1)){
 			// generate cut points
 			while(!cutPointsGenerated){
 				cutPoint1 = RandomUtil.generateRandomNumberBetween(3, permutationSize);
@@ -291,25 +290,79 @@ public class GeneticAlgorithmUtil {
 			firstChild = getEmptyList(cutPoint1);
 			secondChild = getEmptyList(cutPoint1);
 			
-			firstChild.addAll(cutPoint1, secondParent.subList(cutPoint1, cutPoint2));
-			secondChild.addAll(cutPoint1, firstParent.subList(cutPoint1, cutPoint2));
+			firstChild.addAll(cutPoint1, firstParent.subList(cutPoint1, cutPoint2));
+			secondChild.addAll(cutPoint1, secondParent.subList(cutPoint1, cutPoint2));
 			
-			mappings = getMappings(firstParent.subList(cutPoint1, cutPoint2), secondParent.subList(cutPoint1, cutPoint2));
-			
-			addRemainingFirstPart(firstParent.subList(0, cutPoint1), firstChild, cutPoint1, mappings);
-			addRemainingFirstPart(secondParent.subList(0, cutPoint1), secondChild, cutPoint1, mappings);
-			
-			addRemainingLastPart(firstParent.subList(cutPoint2, permutationSize), firstChild, mappings);
-			addRemainingLastPart(secondParent.subList(cutPoint2, permutationSize), secondChild, mappings);
+			// add remaining
+			addRemaining(firstChild, firstParent, secondParent, cutPoint1, cutPoint2, permutationSize);
+			addRemaining(secondChild, secondParent, firstParent, cutPoint1, cutPoint2, permutationSize);
 			
 			children.add(firstChild);
 			children.add(secondChild);
 			
 			i = i + 2;
-		}	
-		
+		}
 		
 		return children;
+	}
+	
+	
+	public static void computeMutationForTSP(List<List<City>> population){
+		int firstPosition = 0, secondPosition = 0;
+		int populationSize = population.size();
+		int candidateSize = population.get(0).size();
+		boolean positionsNotGenerated = true;
+		
+		for(int i = 0; i < populationSize; i++){
+			while(positionsNotGenerated){
+				firstPosition = RandomUtil.generateRandomNumberBetween(0, candidateSize - 1);
+				secondPosition = RandomUtil.generateRandomNumberBetween(0, candidateSize - 1);
+				
+				if(firstPosition != secondPosition){
+					positionsNotGenerated = false;
+				}
+			}
+			
+			// swap elements at positions
+			City city = population.get(i).get(firstPosition);
+			population.get(i).set(firstPosition, population.get(i).get(secondPosition));
+			population.get(i).set(secondPosition, city);
+			positionsNotGenerated = true;
+		}
+		
+	}
+	
+	
+	public static void computeSurvivorsForTSP(List<List<City>> population, List<List<City>> children){
+		int childrenSize = children.size();
+		int indexToBeReplaced = 0;
+		List<List<City>> tempPopulation = new ArrayList<>(population);
+		
+		for(int i = 0; i < childrenSize; i++){
+			indexToBeReplaced = getIndexOfWorstIndividualFromPopulationForTSP(tempPopulation);
+			tempPopulation.remove(indexToBeReplaced);
+			population.set(indexToBeReplaced, children.get(i));
+		}
+		
+		tempPopulation = null;
+		
+	}
+	
+	
+	public static int getBestFitnessFromPopulationForTSP(List<List<City>> population){
+		int bestFitness, tempFitness = 0;
+		int populationSize = population.size();
+		
+		bestFitness = TSPUtil.computeTotalCost(population.get(0));
+		
+		for(int i = 1; i < populationSize; i++){
+			tempFitness = TSPUtil.computeTotalCost(population.get(i));
+			if(tempFitness < bestFitness){
+				bestFitness = tempFitness;
+			}
+		}
+		
+		return bestFitness;
 	}
 	
 	
@@ -321,84 +374,72 @@ public class GeneticAlgorithmUtil {
 		return list;
 	}
 	
-	private static Map<City, City> getMappings(List<City> first, List<City> second){
-		Map<City, City> mappings = new HashMap<>();
-		int size = first.size();
+	
+	private static void addRemaining(List<City> child, List<City> firstParent , List<City> secondParent, int cutPoint1, int cutPoint2, int childFinalLength){
+		List<City> nonReplaceable = firstParent.subList(cutPoint1, cutPoint2);
+		int index = 0;
 		
-		for(int i = 0; i < size; i++){
-			mappings.put(first.get(i), second.get(i));
+		// initialize with  null values until final length is satisfied
+		for(int i = cutPoint2; i < childFinalLength; i++){
+			child.add(null);
 		}
 		
-		return mappings;
-	}
-	
-	private static void addRemainingFirstPart(List<City> part, List<City> child, int endCutPoint, Map<City, City> mappings){
-		int size = child.size();
-		boolean addCity = true;
+		List<City> remaining = new ArrayList<>();
+		for(int j = cutPoint2; j < childFinalLength; j++){
+			remaining.add(secondParent.get(j));
+		}
 		
-		for(int i = 0; i < endCutPoint; i++){
-			City city = part.get(i);
-			for(int j = 0; j < size; j++){
-				if( (child.get(j) != null) && (child.get(j).getIndex() == city.getIndex()) ){
-					// get from mappings
-					for(Map.Entry<City, City> entry : mappings.entrySet()){
-						if(entry.getKey().getIndex() == city.getIndex()){
-							child.set(i, entry.getValue());
-							break;
-						}
-						else if(entry.getValue().getIndex() == city.getIndex()){
-							child.set(i, entry.getKey());
-							break;
-						}
-					}
-					
-					addCity = false;
-					break;
+		for(int k = 0; k < cutPoint2; k++){
+			remaining.add(secondParent.get(k));
+		}
+		
+		// add remaining cities from parent that are not present in child
+		for(int l = 0; l < remaining.size(); l++){
+			if(nonReplaceable.contains(remaining.get(l))) continue;
+			else if(childContainsCity(child, childFinalLength, remaining.get(l), cutPoint1, cutPoint2)) continue;
+			else{
+				if(index == cutPoint1){
+					index = cutPoint2;
 				}
+				
+				child.set(index, remaining.get(l));
+				index++;
 			}
-			if(addCity){
-				child.set(i, city);
-			}
-			
-			addCity = true;
 		}
 		
 	}
 	
-	
-	private static void addRemainingLastPart(List<City> part, List<City> child, Map<City, City> mappings){
-		int partSize = part.size();
-		int childSize = child.size();
-		boolean addCity = true;
-		
-		for(int i = 0; i < partSize; i++){
-			City city = part.get(i);
-			for(int j = 0; j < childSize; j++){
-				if( (child.get(j) != null) && (child.get(j).getIndex() == city.getIndex()) ){
-					// get from mappings
-					for(Map.Entry<City, City> entry : mappings.entrySet()){
-						if(entry.getKey().getIndex() == city.getIndex()){
-							child.add(entry.getValue());
-							break;
-						}
-						else if(entry.getValue().getIndex() == city.getIndex()){
-							child.add(entry.getKey());
-							break;
-						}
-					}
-					
-					addCity = false;
-					break;
-				}
-			}
-			
-			if(addCity){
-				child.add(city);
-			}
-			
-			addCity = true;
+	private static boolean childContainsCity(List<City> child, int size, City element, int cutPoint1, int cutPoint2){
+		for(int i = 0; i < cutPoint1; i ++){
+			if( (child.get(i) != null) && (child.get(i).getIndex() == element.getIndex()))
+				return true;
 		}
 		
+		for(int i = cutPoint2; i < size; i ++){
+			if( (child.get(i) != null) && (child.get(i).getIndex() == element.getIndex()))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	
+	private static int getIndexOfWorstIndividualFromPopulationForTSP(List<List<City>> population){
+		int index, worstFitness = 0, tempFitness = 0;
+		int populationSize = population.size();
+		
+		worstFitness = TSPUtil.computeTotalCost(population.get(0));
+		index = 0;
+		
+		for(int i = 1; i < populationSize; i++){
+			tempFitness = TSPUtil.computeTotalCost(population.get(i));
+			if(tempFitness > worstFitness){
+				worstFitness = tempFitness;
+				index = i;
+			}
+		}
+		
+		return index;
 	}
 	/****************************************************************************************************************************************************/
 	

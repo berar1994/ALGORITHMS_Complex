@@ -14,7 +14,7 @@ import com.disi.geo.util.ResourcesUtil;
 public class Main {
 
 	static final int NR_OF_BITS = 1000;
-	static final int NR_OF_GENERATIONS = 10;
+	static final int NR_OF_GENERATIONS = 1000;
 
 	public static void main(String[] args) {
 		printMenu();
