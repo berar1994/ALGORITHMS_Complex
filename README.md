@@ -2,7 +2,11 @@ This repository contains 3 main assignments regarding different algorithms:
 
 1. Tema1.1  
      Problem to solve: **KNAPSACK 0/1**  
-     Algorithms: **BRUTE FORCE**, **GREEDY**, **RANDOM SEARCH**, **STEEPEST ASCENT HILL-CLIMBING**  
+     Algorithms:  
+          * **BRUTE FORCE**  
+          * **GREEDY**  
+          * **RANDOM SEARCH**  
+          * **STEEPEST ASCENT HILL-CLIMBING**  
 
 2. Tema2.2  
      Problem to solve: **TRAVELLING SALESMAN**  
