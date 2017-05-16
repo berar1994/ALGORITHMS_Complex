@@ -14,7 +14,7 @@ public class GeneticAlgorithm {
 
 	static {
 		populationSize = GeneticAlgorithmConstantsUtil.POPULATION_SIZE_192.value();
-		nrOfParents = GeneticAlgorithmConstantsUtil.REQUIRED_NR_OF_CHILDREN_40.value();
+		nrOfParents = GeneticAlgorithmConstantsUtil.REQUIRED_NR_OF_CHILDREN_20.value();
 	}
 
 	public static void computeOneMaxProblem(int nrOfBits, int nrOfGenerations) {
@@ -100,9 +100,9 @@ public class GeneticAlgorithm {
 				bestGenerationIndex = generationIndex + 1;
 			}
 			
-			System.out.println("GENERATION: " + (generationIndex + 1));
-			System.out.println("COST: " + tempBestFitness);
-			System.out.println("-------------------------------------");
+//			System.out.println("GENERATION: " + (generationIndex + 1));
+//			System.out.println("COST: " + tempBestFitness);
+//			System.out.println("-------------------------------------");
 			
 			
 		}

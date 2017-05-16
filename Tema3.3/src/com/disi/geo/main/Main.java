@@ -14,7 +14,7 @@ import com.disi.geo.util.ResourcesUtil;
 public class Main {
 
 	static final int NR_OF_BITS = 100;
-	static final int NR_OF_GENERATIONS = 1500;
+	static final int NR_OF_GENERATIONS = 10000;
 
 	public static void main(String[] args) {
 		printMenu();
@@ -46,7 +46,7 @@ public class Main {
 	
 	private static void runTSPWithGeneticAlgorithm() {
 		// read from file
-		List<String> fileContent = FileUtil.readDataFromFile(ResourcesUtil.INPUT_FILE_EIL51.value());
+		List<String> fileContent = FileUtil.readDataFromFile(ResourcesUtil.INPUT_FILE_EIL101.value());
 
 		TSP tspInstance = new TSP();
 		// get number of input cities
