@@ -6,7 +6,6 @@ import com.disi.geo.model.City;
 import com.disi.geo.model.TSP;
 import com.disi.geo.util.GeneticAlgorithmConstantsUtil;
 import com.disi.geo.util.GeneticAlgorithmUtil;
-import com.disi.geo.util.ListUtil;
 
 public class GeneticAlgorithm {
 
@@ -14,8 +13,8 @@ public class GeneticAlgorithm {
 	static int nrOfParents = 0;
 
 	static {
-		populationSize = GeneticAlgorithmConstantsUtil.POPULATION_SIZE_102.value();
-		nrOfParents = GeneticAlgorithmConstantsUtil.REQUIRED_NR_OF_CHILDREN_20.value();
+		populationSize = GeneticAlgorithmConstantsUtil.POPULATION_SIZE_192.value();
+		nrOfParents = GeneticAlgorithmConstantsUtil.REQUIRED_NR_OF_CHILDREN_40.value();
 	}
 
 	public static void computeOneMaxProblem(int nrOfBits, int nrOfGenerations) {
@@ -69,31 +68,26 @@ public class GeneticAlgorithm {
 		
 		// initialize population
 		List<List<City>> population = GeneticAlgorithmUtil.createInitialPopulationForTSP(populationSize, tspInstance.getCities());
-		if(ListUtil.hasDuplicatesInLists(population)){
-			System.out.println("Duplicates in initial population");
-		}
 		
 		for(int generationIndex = 0; generationIndex < nrOfGenerations; generationIndex++){
 			// select parents
 			parents = GeneticAlgorithmUtil.computeParentsSelectionUsingTurnirForTSP(population, nrOfParents);
 			
-			if(ListUtil.hasDuplicatesInLists(parents)){
-				System.out.println("Duplicates in parents selection -- generation = " + (generationIndex + 1));
-			}
-			
 			// compute parents crossover in order to obtain children
 			children = GeneticAlgorithmUtil.computeParentsOXCrossoverForTSP(parents);
 			
-			if(ListUtil.hasDuplicatesInLists(children)){
-				System.out.println("Duplicates in children -- generation = " + (generationIndex + 1));
-			}
-			
 			// compute mutations
-			GeneticAlgorithmUtil.computeMutationForTSP(population);
-			GeneticAlgorithmUtil.computeMutationForTSP(children);
+			//GeneticAlgorithmUtil.computeMutationForTSP(population);
+			//GeneticAlgorithmUtil.computeMutationForTSP(children);
 			
 			// select survivors
+//			for(List<City> child : children){
+//				population.add(child);
+//			}
+//			population = GeneticAlgorithmUtil.computeSurvivorsForTSP(population, populationSize);
+			
 			GeneticAlgorithmUtil.computeSurvivorsForTSP(population, children);
+			
 			
 			tempBestFitness = GeneticAlgorithmUtil.getBestFitnessFromPopulationForTSP(population);
 			if(firstEvaluation){

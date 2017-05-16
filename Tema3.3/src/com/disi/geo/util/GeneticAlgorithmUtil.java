@@ -2,9 +2,7 @@ package com.disi.geo.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.disi.geo.compute.GreedyAlogorithm;
 import com.disi.geo.model.City;
@@ -337,11 +335,16 @@ public class GeneticAlgorithmUtil {
 		int childrenSize = children.size();
 		int indexToBeReplaced = 0;
 		List<List<City>> tempPopulation = new ArrayList<>(population);
+		int tempFitness = 0;
 		
 		for(int i = 0; i < childrenSize; i++){
 			indexToBeReplaced = getIndexOfWorstIndividualFromPopulationForTSP(tempPopulation);
-			tempPopulation.remove(indexToBeReplaced);
-			population.set(indexToBeReplaced, children.get(i));
+			tempFitness = TSPUtil.computeTotalCost(tempPopulation.get(indexToBeReplaced));
+			
+			if(TSPUtil.computeTotalCost(children.get(i)) < tempFitness ){
+				tempPopulation.remove(indexToBeReplaced);
+				population.set(indexToBeReplaced, children.get(i));
+			}
 		}
 		
 		tempPopulation = null;
@@ -364,6 +367,60 @@ public class GeneticAlgorithmUtil {
 		
 		return bestFitness;
 	}
+	
+	
+	public static List<List<City>> computeSurvivorsForTSP(List<List<City>> population, int nrOfSurvivorsNeeded){
+		List<List<City>> newPopulation = new ArrayList<>();
+		int k = 0, populationSize = population.size(), randomIndex = 0, index = 0;
+		int bestCandidateFitness = 0, tempFitness = 0;
+		int bestCandidateIndex = 0;
+		int[] selected = new int[nrOfSurvivorsNeeded];
+		boolean select = true, bestCandidateFitnessNotInitialized = true;
+		
+		while(nrOfSurvivorsNeeded > 0){
+			k = RandomUtil.generateRandomNumberBetween(2, populationSize);
+			
+			while(k > 0){
+				randomIndex = RandomUtil.generateRandomNumberBetween(0, populationSize);
+				tempFitness = TSPUtil.computeTotalCost(population.get(randomIndex));
+				
+				if(bestCandidateFitnessNotInitialized){
+					bestCandidateFitness = tempFitness;
+					bestCandidateIndex = randomIndex;
+					bestCandidateFitnessNotInitialized = false;
+				}
+				else if(tempFitness < bestCandidateFitness){
+					bestCandidateFitness = tempFitness;
+					bestCandidateIndex = randomIndex;
+				}
+				
+				k--;
+			}
+			
+			// check if the candidate was already selected before
+			for(int j = 0; j < selected.length; j++){
+				if(bestCandidateIndex == selected[j]){
+					select = false;
+					break;
+				}
+			}
+			
+			if(select){
+				newPopulation.add(population.get(bestCandidateIndex));
+				selected[index] = bestCandidateIndex;
+				index++;
+				nrOfSurvivorsNeeded--;
+			}
+			
+			bestCandidateFitness = 0;
+			bestCandidateIndex = 0;
+			select = true;
+			bestCandidateFitnessNotInitialized = true;
+		}
+		
+		return newPopulation;
+	}
+	
 	
 	
 	private static List<City> getEmptyList(int limit){
