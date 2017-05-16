@@ -10,7 +10,11 @@ This repository contains 3 main assignments regarding different algorithms:
 
 2. Tema2.2  
      Problem to solve: **TRAVELLING SALESMAN**  
-     Algorithms: **BRUTE FORCE**, **LOCAL SEARCH**, **GREEDY**, **SIMULATED ANNEALING**  
+     Algorithms:  
+          * **BRUTE FORCE**  
+          * **LOCAL SEARCH**          
+          * **GREEDY**  
+          * **SIMULATED ANNEALING**    
 
 3. Tema3.3  
      Problem to solve: **ONE MAX** , **TRAVELLING SALESMAN**   
