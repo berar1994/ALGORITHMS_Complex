@@ -9,5 +9,5 @@ This repository contains 3 main assignments regarding different algorithms:
      Algorithms: **BRUTE FORCE**, **LOCAL SEARCH**, **GREEDY**, **SIMULATED ANNEALING**  
 
 3. Tema3.3  
-     Problem to solve: **ONE MAX**, **TRAVELLING SALESMAN**   
+     Problem to solve: **ONE MAX** , **TRAVELLING SALESMAN**   
      Algorithm: **GENETIC ALGORITHM**
