@@ -1,6 +1,6 @@
 This repository contains 3 main assignments regarding different algorithms:  
 
-1. Tema1.1  
+1. Assignment_1   
      Problem to solve: **KNAPSACK 0/1**  
      Algorithms:  
           * **BRUTE FORCE**  
@@ -8,7 +8,7 @@ This repository contains 3 main assignments regarding different algorithms:
           * **RANDOM SEARCH**  
           * **STEEPEST ASCENT HILL-CLIMBING**  
 
-2. Tema2.2  
+2. Assignment_2    
      Problem to solve: **TRAVELLING SALESMAN**  
      Algorithms:  
           * **BRUTE FORCE**  
@@ -16,6 +16,6 @@ This repository contains 3 main assignments regarding different algorithms:
           * **GREEDY**  
           * **SIMULATED ANNEALING**    
 
-3. Tema3.3  
+3. Assignment_3    
      Problem to solve: **ONE MAX** , **TRAVELLING SALESMAN**   
      Algorithm: **GENETIC ALGORITHM**
